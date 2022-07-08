@@ -19,27 +19,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List changes = [12, 23, 13];
 
-  void animate(int value) {
-    Alignment tempAlign;
-    if (value == 12) {
-      tempAlign = firstAlign;
-      firstAlign = secondAlign;
-      secondAlign = tempAlign;
-    } else if (value == 23) {
-      tempAlign = secondAlign;
-      secondAlign = thirdAlign;
-      thirdAlign = tempAlign;
-    } else if (value == 13) {
-      tempAlign = firstAlign;
-      firstAlign = thirdAlign;
-      thirdAlign = tempAlign;
-    }
-  }
-
   void start() {
     firstAlign = Alignment.centerLeft;
     secondAlign = Alignment.center;
     thirdAlign = Alignment.centerRight;
+  }
+
+  void animate(int value) {
+    Alignment tempAlign;
+    setState(() {
+      if (value == 12) {
+        tempAlign = firstAlign;
+        firstAlign = secondAlign;
+        secondAlign = tempAlign;
+      } else if (value == 23) {
+        tempAlign = secondAlign;
+        secondAlign = thirdAlign;
+        thirdAlign = tempAlign;
+      } else if (value == 13) {
+        tempAlign = firstAlign;
+        firstAlign = thirdAlign;
+        thirdAlign = tempAlign;
+      }
+    });
   }
 
   @override
@@ -73,10 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton.icon(
-                      onPressed: () async {
-                        setState(() {
-                          start();
-                        });
+                      onPressed: () {
+                        for (var i = 0; i < states; i++) {
+                          animate(changes[Random.secure().nextInt(3)]);
+                        }
                       },
                       icon: Icon(Icons.start, size: sayz.width * 0.1),
                       label: Text(

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:cup_shuffle/widgets/cups.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -13,11 +14,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Alignment firstAlign = Alignment.topLeft;
   Alignment secondAlign = Alignment.topCenter;
   Alignment thirdAlign = Alignment.topRight;
-  int states = 10 + Random.secure().nextInt(10);
-  List changes = [12, 23, 13];
-  int secretPos = 1;
 
-  Future animate(int value) async {
+  int states = 10 + Random.secure().nextInt(10);
+
+  List changes = [12, 23, 13];
+
+  void animate(int value) {
     Alignment tempAlign;
     if (value == 12) {
       tempAlign = firstAlign;
@@ -32,16 +34,12 @@ class _MyHomePageState extends State<MyHomePage> {
       firstAlign = thirdAlign;
       thirdAlign = tempAlign;
     }
-    await Future.delayed(const Duration(seconds: 3));
   }
 
-  void start() async {
+  void start() {
     firstAlign = Alignment.centerLeft;
     secondAlign = Alignment.center;
     thirdAlign = Alignment.centerRight;
-    for (var i = 0; i < states; i++) {
-      await animate(changes[Random.secure().nextInt(3)]);
-    }
   }
 
   @override
@@ -69,30 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       scale: sayz.width * 0.02,
                     ),
                   ),
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    alignment: firstAlign,
-                    child: Image.asset(
-                      'assets/cup.png',
-                      scale: sayz.width * 0.015,
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    alignment: secondAlign,
-                    child: Image.asset(
-                      'assets/cup.png',
-                      scale: sayz.width * 0.015,
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    alignment: thirdAlign,
-                    child: Image.asset(
-                      'assets/cup.png',
-                      scale: sayz.width * 0.015,
-                    ),
-                  ),
+                  cups(firstAlign, sayz),
+                  cups(secondAlign, sayz),
+                  cups(thirdAlign, sayz),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton.icon(

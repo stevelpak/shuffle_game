@@ -15,24 +15,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Alignment thirdAlign = Alignment.centerRight;
   int states = 10 + Random.secure().nextInt(10);
 
-  Map<int, Alignment> types = {
-    1: Alignment.centerLeft,
-    2: Alignment.center,
-    3: Alignment.centerRight,
-  };
-
   List changes = [12, 23, 13];
 
   animate(int value) {
+    Alignment tempAlign;
     if (value == 12) {
-      firstAlign = types[2]!;
-      secondAlign = types[1]!;
+      tempAlign = firstAlign;
+      firstAlign = secondAlign;
+      secondAlign = tempAlign;
     } else if (value == 23) {
-      secondAlign = types[3]!;
-      thirdAlign = types[2]!;
+      tempAlign = secondAlign;
+      secondAlign = thirdAlign;
+      thirdAlign = tempAlign;
     } else if (value == 13) {
-      firstAlign = types[3]!;
-      thirdAlign = types[1]!;
+      tempAlign = firstAlign;
+      firstAlign = thirdAlign;
+      thirdAlign = tempAlign;
     } else {
       return animate(changes[Random().nextInt(changes.length)]);
     }

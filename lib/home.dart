@@ -10,14 +10,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Alignment firstAlign = Alignment.centerLeft;
-  Alignment secondAlign = Alignment.center;
-  Alignment thirdAlign = Alignment.centerRight;
+  Alignment firstAlign = Alignment.topLeft;
+  Alignment secondAlign = Alignment.topCenter;
+  Alignment thirdAlign = Alignment.topRight;
   int states = 10 + Random.secure().nextInt(10);
-
   List changes = [12, 23, 13];
+  int secretPos = 1;
 
-  animate(int value) {
+  Future animate(int value) async {
     Alignment tempAlign;
     if (value == 12) {
       tempAlign = firstAlign;
@@ -31,8 +31,16 @@ class _MyHomePageState extends State<MyHomePage> {
       tempAlign = firstAlign;
       firstAlign = thirdAlign;
       thirdAlign = tempAlign;
-    } else {
-      return animate(changes[Random().nextInt(changes.length)]);
+    }
+    await Future.delayed(const Duration(seconds: 3));
+  }
+
+  void start() async {
+    firstAlign = Alignment.centerLeft;
+    secondAlign = Alignment.center;
+    thirdAlign = Alignment.centerRight;
+    for (var i = 0; i < states; i++) {
+      await animate(changes[Random.secure().nextInt(3)]);
     }
   }
 
@@ -46,60 +54,63 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FutureBuilder(
-              builder: ((context, snapshot) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: sayz.width * 0.05),
-                  width: sayz.width * 0.9,
-                  height: sayz.height * 0.6,
-                  color: const Color(0xFFA2D5C6),
-                  child: Stack(
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(seconds: 3),
-                        alignment: firstAlign,
-                        child: Image.asset(
-                          'assets/cup.png',
-                          scale: sayz.width * 0.015,
-                        ),
-                      ),
-                      AnimatedContainer(
-                        duration: const Duration(seconds: 3),
-                        alignment: secondAlign,
-                        child: Image.asset(
-                          'assets/cup.png',
-                          scale: sayz.width * 0.015,
-                        ),
-                      ),
-                      AnimatedContainer(
-                        duration: const Duration(seconds: 3),
-                        alignment: thirdAlign,
-                        child: Image.asset(
-                          'assets/cup.png',
-                          scale: sayz.width * 0.015,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: TextButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              animate(
-                                  changes[Random().nextInt(changes.length)]);
-                            });
-                          },
-                          icon: Icon(Icons.start, size: sayz.width * 0.1),
-                          label: Text(
-                            "Start",
-                            style: TextStyle(fontSize: sayz.width * 0.05),
-                          ),
-                        ),
-                      )
-                    ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: sayz.width * 0.05),
+              width: sayz.width * 0.9,
+              height: sayz.height * 0.6,
+              color: const Color(0xFFA2D5C6),
+              child: Stack(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      'assets/ball.png',
+                      scale: sayz.width * 0.02,
+                    ),
                   ),
-                );
-              }),
-            )
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    alignment: firstAlign,
+                    child: Image.asset(
+                      'assets/cup.png',
+                      scale: sayz.width * 0.015,
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    alignment: secondAlign,
+                    child: Image.asset(
+                      'assets/cup.png',
+                      scale: sayz.width * 0.015,
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    alignment: thirdAlign,
+                    child: Image.asset(
+                      'assets/cup.png',
+                      scale: sayz.width * 0.015,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: TextButton.icon(
+                      onPressed: () async {
+                        setState(() {
+                          start();
+                        });
+                      },
+                      icon: Icon(Icons.start, size: sayz.width * 0.1),
+                      label: Text(
+                        "Start",
+                        style: TextStyle(fontSize: sayz.width * 0.05),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

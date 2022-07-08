@@ -108,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     alignment: Alignment.bottomCenter,
                     child: TextButton.icon(
                       onPressed: () async {
+                        _visnatija = false;
                         Future.delayed(const Duration(seconds: 1), (() {
                           _visibility = false;
                         }));

@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFF077B8A),
+        backgroundColor: const Color(0xFF2193B0),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -68,9 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(
                   "Siz $natija",
                   style: const TextStyle(
-                    color: Colors.red,
+                    color: Colors.purple,
                     fontWeight: FontWeight.bold,
-                    fontSize: 40,
+                    fontSize: 30,
                   ),
                 ),
               ),
@@ -79,7 +79,15 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: EdgeInsets.symmetric(horizontal: sayz.width * 0.05),
               width: sayz.width * 0.9,
               height: sayz.height * 0.6,
-              color: const Color(0xFFA2D5C6),
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  colors: [
+                    Color(0xFF6DD5ED),
+                    Color(0xFF2193B0),
+                  ],
+                  radius: 0.5,
+                ),
+              ),
               child: Stack(
                 children: [
                   Visibility(
@@ -112,10 +120,17 @@ class _MyHomePageState extends State<MyHomePage> {
                           await animate(changes[Random.secure().nextInt(3)]);
                         }
                       },
-                      icon: Icon(Icons.start, size: sayz.width * 0.1),
+                      icon: Icon(
+                        Icons.start,
+                        size: sayz.width * 0.15,
+                        color: Colors.green,
+                      ),
                       label: Text(
                         "Start",
-                        style: TextStyle(fontSize: sayz.width * 0.05),
+                        style: TextStyle(
+                          fontSize: sayz.width * 0.09,
+                          color: Colors.green,
+                        ),
                       ),
                     ),
                   )

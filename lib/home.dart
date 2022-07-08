@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:cup_shuffle/widgets/cups.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -20,7 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _visnatija = false;
   String? natija;
 
-  int states = 20 + Random.secure().nextInt(10);
+  int states = 10 + Random.secure().nextInt(10);
 
   List changes = [12, 23, 13];
 
@@ -65,7 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Visibility(
               visible: _visnatija,
-              child: Text("Siz $natija"),
+              child: Center(
+                child: Text(
+                  "Siz $natija",
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40,
+                  ),
+                ),
+              ),
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: sayz.width * 0.05),
@@ -85,66 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    alignment: firstAlign,
-                    child: InkWell(
-                      onTap: (() {
-                        setState(() {
-                          if (firstAlign == imgAlign) {
-                            natija = "yutdingiz";
-                          } else {
-                            natija = "yutqazdingiz";
-                          }
-                          _visnatija = true;
-                        });
-                      }),
-                      child: Image.asset(
-                        'assets/cup.png',
-                        scale: sayz.width * 0.015,
-                      ),
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    alignment: secondAlign,
-                    child: InkWell(
-                      onTap: (() {
-                        setState(() {
-                          if (secondAlign == imgAlign) {
-                            natija = "yutdingiz";
-                          } else {
-                            natija = "yutqazdingiz";
-                          }
-                          _visnatija = true;
-                        });
-                      }),
-                      child: Image.asset(
-                        'assets/cup.png',
-                        scale: sayz.width * 0.015,
-                      ),
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    alignment: thirdAlign,
-                    child: InkWell(
-                      onTap: (() {
-                        setState(() {
-                          if (thirdAlign == imgAlign) {
-                            natija = "yutdingiz";
-                          } else {
-                            natija = "yutqazdingiz";
-                          }
-                          _visnatija = true;
-                        });
-                      }),
-                      child: Image.asset(
-                        'assets/cup.png',
-                        scale: sayz.width * 0.015,
-                      ),
-                    ),
-                  ),
+                  cups(sayz, firstAlign),
+                  cups(sayz, secondAlign),
+                  cups(sayz, thirdAlign),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton.icon(
@@ -172,6 +123,29 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  AnimatedContainer cups(Size sayz, Alignment align) {
+    return AnimatedContainer(
+      duration: const Duration(seconds: 1),
+      alignment: align,
+      child: InkWell(
+        onTap: (() {
+          setState(() {
+            if (align == imgAlign) {
+              natija = "yutdingiz";
+            } else {
+              natija = "yutqazdingiz";
+            }
+            _visnatija = true;
+          });
+        }),
+        child: Image.asset(
+          'assets/cup.png',
+          scale: sayz.width * 0.015,
         ),
       ),
     );

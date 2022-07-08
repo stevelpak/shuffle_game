@@ -14,8 +14,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Alignment firstAlign = Alignment.topLeft;
   Alignment secondAlign = Alignment.topCenter;
   Alignment thirdAlign = Alignment.topRight;
+  late Alignment tempAlign;
 
-  int states = 10 + Random.secure().nextInt(10);
+  int states = 20 + Random.secure().nextInt(10);
 
   List changes = [12, 23, 13];
 
@@ -25,8 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
     thirdAlign = Alignment.centerRight;
   }
 
-  void animate(int value) {
-    Alignment tempAlign;
+  Future animate(int value) async {
     setState(() {
       if (value == 12) {
         tempAlign = firstAlign;
@@ -42,6 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
         thirdAlign = tempAlign;
       }
     });
+
+    await Future.delayed(const Duration(seconds: 1));
   }
 
   @override
@@ -75,9 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton.icon(
-                      onPressed: () {
+                      onPressed: () async {
                         for (var i = 0; i < states; i++) {
-                          animate(changes[Random.secure().nextInt(3)]);
+                          await animate(changes[Random.secure().nextInt(3)]);
                         }
                       },
                       icon: Icon(Icons.start, size: sayz.width * 0.1),

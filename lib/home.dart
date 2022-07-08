@@ -14,7 +14,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Alignment firstAlign = Alignment.topLeft;
   Alignment secondAlign = Alignment.topCenter;
   Alignment thirdAlign = Alignment.topRight;
+  Alignment imgAlign = Alignment.center;
   late Alignment tempAlign;
+  bool _visibility = true;
+  bool _visnatija = false;
+  String? natija;
 
   int states = 20 + Random.secure().nextInt(10);
 
@@ -29,14 +33,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Future animate(int value) async {
     setState(() {
       if (value == 12) {
+        imgAlign = imgAlign == firstAlign ? secondAlign : firstAlign;
         tempAlign = firstAlign;
         firstAlign = secondAlign;
         secondAlign = tempAlign;
       } else if (value == 23) {
+        imgAlign = imgAlign == secondAlign ? thirdAlign : secondAlign;
         tempAlign = secondAlign;
         secondAlign = thirdAlign;
         thirdAlign = tempAlign;
       } else if (value == 13) {
+        imgAlign = imgAlign == firstAlign ? thirdAlign : firstAlign;
         tempAlign = firstAlign;
         firstAlign = thirdAlign;
         thirdAlign = tempAlign;
@@ -56,6 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Visibility(
+              visible: _visnatija,
+              child: Text("Siz $natija"),
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: sayz.width * 0.05),
               width: sayz.width * 0.9,
@@ -63,22 +74,90 @@ class _MyHomePageState extends State<MyHomePage> {
               color: const Color(0xFFA2D5C6),
               child: Stack(
                 children: [
-                  AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/ball.png',
-                      scale: sayz.width * 0.02,
+                  Visibility(
+                    visible: _visibility,
+                    child: AnimatedContainer(
+                      duration: const Duration(seconds: 1),
+                      alignment: imgAlign,
+                      child: Image.asset(
+                        'assets/ball.png',
+                        scale: sayz.width * 0.02,
+                      ),
                     ),
                   ),
-                  cups(firstAlign, sayz),
-                  cups(secondAlign, sayz),
-                  cups(thirdAlign, sayz),
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    alignment: firstAlign,
+                    child: InkWell(
+                      onTap: (() {
+                        setState(() {
+                          if (firstAlign == imgAlign) {
+                            natija = "yutdingiz";
+                          } else {
+                            natija = "yutqazdingiz";
+                          }
+                          _visnatija = true;
+                        });
+                      }),
+                      child: Image.asset(
+                        'assets/cup.png',
+                        scale: sayz.width * 0.015,
+                      ),
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    alignment: secondAlign,
+                    child: InkWell(
+                      onTap: (() {
+                        setState(() {
+                          if (secondAlign == imgAlign) {
+                            natija = "yutdingiz";
+                          } else {
+                            natija = "yutqazdingiz";
+                          }
+                          _visnatija = true;
+                        });
+                      }),
+                      child: Image.asset(
+                        'assets/cup.png',
+                        scale: sayz.width * 0.015,
+                      ),
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    alignment: thirdAlign,
+                    child: InkWell(
+                      onTap: (() {
+                        setState(() {
+                          if (thirdAlign == imgAlign) {
+                            natija = "yutdingiz";
+                          } else {
+                            natija = "yutqazdingiz";
+                          }
+                          _visnatija = true;
+                        });
+                      }),
+                      child: Image.asset(
+                        'assets/cup.png',
+                        scale: sayz.width * 0.015,
+                      ),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton.icon(
                       onPressed: () async {
+                        Future.delayed(const Duration(seconds: 1), (() {
+                          _visibility = false;
+                        }));
+
                         for (var i = 0; i < states; i++) {
+                          if (i == 0) {
+                            start();
+                          }
+
                           await animate(changes[Random.secure().nextInt(3)]);
                         }
                       },
